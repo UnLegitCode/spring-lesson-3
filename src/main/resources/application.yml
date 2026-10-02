@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: spring-data-demo
+  sql:
+    init:
+      schema-locations: classpath*:sql_init/*.sql

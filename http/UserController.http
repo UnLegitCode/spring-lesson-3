@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:8080
+
+### List all users -> 200, [] on a fresh in-memory DB
+GET {{baseUrl}}/users
+Accept: application/json
+
+### Get user by id -> 200 (currently 500, see above)
+GET {{baseUrl}}/users/1
+Accept: application/json
+
+### Get nonexistent user -> 404 (currently 500, see above)
+GET {{baseUrl}}/users/999999
+Accept: application/json
+
+### Create user -> 201. email is UNIQUE in the users table, so use a fresh
+### address on every run or the insert will fail on the constraint.
+# @name createUser
+POST {{baseUrl}}/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Vasiliy",
+  "email": "vasiliy@example.com"
+}
+
+> {%
+    client.global.set("userId", response.body.id);
+%}
+
+### Read back the created user -> 200 (currently 500, see above)
+GET {{baseUrl}}/users/{{userId}}
+Accept: application/json
+
+### Update -> 200. The id travels in the body, not the path, so pass {{userId}}.
+PUT {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Ann Updated",
+  "email": "ann.updated@example.com"
+}
+
+### Read back the update -> 200 (currently 500, see above)
+GET {{baseUrl}}/users/{{userId}}
+Accept: application/json
+
+### Delete an existing user -> 204 No Content, empty body
+DELETE {{baseUrl}}/users/{{userId}}
+Accept: application/json
+
+### Delete the same user again -> 404. UserService.deleteUser throws
+### UserNotFoundException when deleteById reports 0 rows affected.
+DELETE {{baseUrl}}/users/1
+Accept: application/json
+
+### Confirm it is gone -> 404 (currently 500, see above)
+GET {{baseUrl}}/users/1
+Accept: application/json
+
+### Delete a user that never existed -> 404
+DELETE {{baseUrl}}/users/999999
+Accept: application/json
