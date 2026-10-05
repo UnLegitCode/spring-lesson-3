@@ -10,22 +10,15 @@ import java.util.List;
 public class UserMapper {
 
     public UserDto modelToDto(User model) {
-        return new UserDto(model.getId(), model.getName(), model.getEmail());
+        return new UserDto(
+                model.getId(), model.getName(), model.getEmail(), model.getCountry(),
+                model.getAge(), model.getCreatedAt(), model.getUpdatedAt()
+        );
     }
 
     public List<UserDto> modelToDto(List<User> modelList) {
         return modelList.stream()
                 .map(this::modelToDto)
-                .toList();
-    }
-
-    public User dtoToModel(UserDto dto) {
-        return new User(dto.id(), dto.name(), dto.email());
-    }
-
-    public List<User> dtoToModel(List<UserDto> dtoList) {
-        return dtoList.stream()
-                .map(this::dtoToModel)
                 .toList();
     }
 }

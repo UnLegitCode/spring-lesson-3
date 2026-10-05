@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.unlegit.springdatademo.dto.UserCreateDto;
 import ru.unlegit.springdatademo.dto.UserDto;
+import ru.unlegit.springdatademo.dto.UserUpdateDto;
 import ru.unlegit.springdatademo.service.UserService;
 
 import java.util.List;
@@ -29,11 +30,11 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody UserCreateDto dto) {
-        return userService.createUser(dto.name(), dto.email());
+        return userService.createUser(dto.name(), dto.email(), dto.country(), dto.age());
     }
 
     @PutMapping
-    public UserDto updateUser(@RequestBody UserDto dto) {
+    public UserDto updateUser(@RequestBody UserUpdateDto dto) {
         return userService.updateUser(dto);
     }
 
@@ -41,5 +42,13 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/find")
+    public List<UserDto> listUsersByCountryAndMinAge(
+            @RequestParam(name = "country") String country,
+            @RequestParam(name = "minAge") int minAge
+    ) {
+        return userService.listUsersByCountryAndMinAge(country, minAge);
     }
 }

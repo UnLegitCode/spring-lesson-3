@@ -44,7 +44,7 @@ stack, each layer a package under that root:
 
 ## Schema is created in code, not by migrations
 
-No Flyway, Liquibase, or `schema_users.sql`. `UserRepository.postInit()` (UserRepository.java:38)
+No Flyway, Liquibase, or `V1__Init.sql`. `UserRepository.postInit()` (UserRepository.java:38)
 runs a raw `CREATE TABLE users(...)` from `@PostConstruct`, so DDL lives in the repository
 class and the schema is dropped and rebuilt on every boot. Adding a table means adding a
 `@PostConstruct` block, not a migration.

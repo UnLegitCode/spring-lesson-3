@@ -1,6 +1,12 @@
 spring:
   application:
     name: spring-data-demo
-  sql:
-    init:
-      schema-locations: classpath*:sql_init/*.sql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo_db
+    username: unlegit
+    password: 390xLL6Y87Wd
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true

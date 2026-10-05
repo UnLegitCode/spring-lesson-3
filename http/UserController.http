@@ -20,8 +20,10 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Vasiliy",
-  "email": "vasiliy@example.com"
+  "name": "Petr",
+  "email": "petr@example.com",
+  "country": "Russia",
+  "age": 25
 }
 
 > {%
@@ -38,8 +40,10 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "name": "Ann Updated",
-  "email": "ann.updated@example.com"
+  "name": "Petr Updated",
+  "email": "petr.updated@example.com",
+  "country": "Russia",
+  "age": 40
 }
 
 ### Read back the update -> 200 (currently 500, see above)
@@ -61,4 +65,8 @@ Accept: application/json
 
 ### Delete a user that never existed -> 404
 DELETE {{baseUrl}}/users/999999
+Accept: application/json
+
+### List all users by country and minimum age
+GET {{baseUrl}}/users/find?country=Belarus&minAge=18
 Accept: application/json
